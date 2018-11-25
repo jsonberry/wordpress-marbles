@@ -1,0 +1,5 @@
+- add inversifyJS and use it for injecting config into DAO
+- do basic Pages effects
+- do basic Users effects
+- do basic Search effects
+- add sqlite, redis, or mongo data layer for caching
