@@ -1,14 +1,16 @@
 import { Effect, HttpError, HttpStatus } from '@marblejs/core';
-import { throwError } from 'rxjs';
-import { catchError, mergeMapTo, mergeMap, reduce, pluck } from 'rxjs/operators';
-import { postsDao } from '../model/posts.dao';
 import { AxiosResponse } from 'axios';
-import { postTransducer } from '../helpers';
+import { throwError } from 'rxjs';
+import { hasProps } from 'rxjs-toolkit';
+import { catchError, mergeMap, mergeMapTo, pluck, reduce } from 'rxjs/operators';
 import { bodyResTransducer } from '../../common';
+import { postTransducer } from '../helpers';
+import { postsDao } from '../model/posts.dao';
 
 export const getAllPostsEffect$: Effect = req$ =>
   req$.pipe(
     mergeMapTo(postsDao.allPosts$),
+    hasProps('data'),
     pluck<AxiosResponse, any[]>('data'),
     mergeMap(data => data),
     postTransducer,

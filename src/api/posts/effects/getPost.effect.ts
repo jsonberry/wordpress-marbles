@@ -1,15 +1,17 @@
-import { Effect, HttpError, HttpStatus, HttpRequest } from '@marblejs/core';
-import { throwError } from 'rxjs';
-import { catchError, pluck, switchMap } from 'rxjs/operators';
-import { postsDao } from '../model/posts.dao';
+import { Effect, HttpError, HttpRequest, HttpStatus } from '@marblejs/core';
 import { AxiosResponse } from 'axios';
-import { postTransducer } from '../helpers';
+import { throwError } from 'rxjs';
+import { hasProps } from 'rxjs-toolkit';
+import { catchError, pluck, switchMap } from 'rxjs/operators';
 import { bodyResTransducer } from '../../common';
+import { postTransducer } from '../helpers';
+import { postsDao } from '../model/posts.dao';
 
 export const getPostEffect$: Effect = req$ =>
   req$.pipe(
     pluck<HttpRequest, string>('params', 'id'),
     switchMap(postsDao.post$),
+    hasProps('data'),
     pluck<AxiosResponse, any[]>('data'),
     postTransducer,
     bodyResTransducer,

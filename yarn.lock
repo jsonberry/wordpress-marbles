@@ -1333,6 +1333,11 @@ lodash.debounce@^4.0.8:
   resolved "https://registry.yarnpkg.com/lodash.debounce/-/lodash.debounce-4.0.8.tgz#82d79bff30a67c4005ffd5e2515300ad9ca4d7af"
   integrity sha1-gteb/zCmfEAF/9XiUVMArZyk168=
 
+lodash.has@^4.5.2:
+  version "4.5.2"
+  resolved "https://registry.yarnpkg.com/lodash.has/-/lodash.has-4.5.2.tgz#d19f4dc1095058cccbe2b0cdf4ee0fe4aa37c862"
+  integrity sha1-0Z9NwQlQWMzL4rDN9O4P5Ko3yGI=
+
 lodash.pick@^4.4.0:
   version "4.4.0"
   resolved "https://registry.yarnpkg.com/lodash.pick/-/lodash.pick-4.4.0.tgz#52f05610fff9ded422611441ed1fc123a03001b3"
@@ -1962,11 +1967,12 @@ rimraf@^2.6.1:
   dependencies:
     glob "^7.0.5"
 
-rxjs-toolkit@^1.1.0-alpha.0:
-  version "1.1.0-alpha.0"
-  resolved "https://registry.yarnpkg.com/rxjs-toolkit/-/rxjs-toolkit-1.1.0-alpha.0.tgz#230f7553c2e75bed8268370d453a08c97e80b472"
-  integrity sha512-qwCcZyjlbRtMTasHxV8kGH0uaz5FN003g7fNOydf4rA03yWGhJgDei+K5MU/XYi+WRuHA3W4joPna3LzUKMHBA==
+rxjs-toolkit@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/rxjs-toolkit/-/rxjs-toolkit-1.1.1.tgz#71e3f1be5a859b19e83768acdf1b71139205932c"
+  integrity sha512-aAGkxSO2TwZTLAfZSVqUyOgdro1Iz6EX4hkNe6BztIHCmjqg8KMtvuuVN628mhwFGtKLKz9vJuK9QXzLRUR73w==
   dependencies:
+    lodash.has "^4.5.2"
     lodash.pick "^4.4.0"
     rxjs "^6.3.3"
     sha.js "^2.4.11"
