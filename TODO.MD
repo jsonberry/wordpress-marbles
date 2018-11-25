@@ -3,3 +3,5 @@
 - do basic Users effects
 - do basic Search effects
 - add sqlite, redis, or mongo data layer for caching
+- Get dotenv to work properly so I don't have to brig it into the DAO models
+- Unit tests
