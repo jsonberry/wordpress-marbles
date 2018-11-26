@@ -1,8 +1,8 @@
 import axios from 'axios';
-import { from, range } from 'rxjs';
-import { switchMap, mergeMap } from 'rxjs/operators';
-import { PostsDao } from './posts.model';
 import * as dotenv from 'dotenv';
+import { from, range } from 'rxjs';
+import { mergeMap, switchMap } from 'rxjs/operators';
+import { PostsDao } from './posts.model';
 dotenv.config();
 
 export const endpoint = `${process.env.API_BASE}/wp/v2/posts`;
