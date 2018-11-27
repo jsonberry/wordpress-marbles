@@ -14,7 +14,7 @@ export const getPostEffect$: Effect = req$ =>
     switchMap(([req, cache]) =>
       iif(
         () => {
-          if (cache !== null) {
+          if (cache) {
             return !!cache[req.params.id];
           }
 

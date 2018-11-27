@@ -13,8 +13,8 @@ import {
 } from 'rxjs/operators';
 import { bodyResTransducer } from '../../common';
 import { postTransducer } from '../helpers';
-import { postsDao } from '../posts.dao';
 import { postsCache$ } from '../posts.cache';
+import { postsDao } from '../posts.dao';
 
 const newRequest$ = postsDao.allPosts$.pipe(
   hasProps('data'),
@@ -30,7 +30,7 @@ export const getAllPostsEffect$: Effect = req$ =>
     withLatestFrom(postsCache$),
     switchMap(([, cache]) => iif(() => !!cache, of(cache), newRequest$)),
     bodyResTransducer,
-    catchError(err =>
+    catchError(() =>
       throwError(new HttpError('No posts found', HttpStatus.NOT_FOUND))
     )
   );
