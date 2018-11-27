@@ -1,17 +1,24 @@
 import axios from 'axios';
-import { from, range } from 'rxjs';
-import { switchMap, mergeMap } from 'rxjs/operators';
-import { PostsDao } from './posts.model';
 import * as dotenv from 'dotenv';
+import { from, range } from 'rxjs';
+import { mergeMap, switchMap } from 'rxjs/operators';
+import { PostsDao } from './posts.model';
+import * as https from 'https';
 dotenv.config();
+
+const http = axios.create({
+  httpsAgent: new https.Agent({
+    rejectUnauthorized: false // this helps get around self signed cert validation errors in Node
+  })
+});
 
 export const endpoint = `${process.env.API_BASE}/wp/v2/posts`;
 
 export const postsDao: PostsDao = {
-  allPosts$: from(axios.head(endpoint)).pipe(
+  allPosts$: from(http.head(endpoint)).pipe(
     switchMap(({ headers }) => range(1, Number(headers['x-wp-totalpages']))),
     mergeMap(page =>
-      axios.get(endpoint, {
+      http.get(endpoint, {
         params: {
           page
         }
