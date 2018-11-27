@@ -5,12 +5,12 @@ import { hasProps } from 'rxjs-toolkit';
 import { catchError, pluck, switchMap, withLatestFrom } from 'rxjs/operators';
 import { bodyResTransducer } from '../../common';
 import { postTransducer } from '../helpers';
-import { postsDao } from '../model/posts.dao';
-import { postsStore$ } from '../store';
+import { postsDao } from '../posts.dao';
+import { postsCache$ } from '../posts.cache';
 
 export const getPostEffect$: Effect = req$ =>
   req$.pipe(
-    withLatestFrom(postsStore$),
+    withLatestFrom(postsCache$),
     switchMap(([req, cache]) =>
       iif(
         () => {
