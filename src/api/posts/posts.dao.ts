@@ -1,9 +1,12 @@
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import * as dotenv from 'dotenv';
-import { from, range } from 'rxjs';
-import { mergeMap, switchMap } from 'rxjs/operators';
-import { PostsDao } from './posts.model';
 import * as https from 'https';
+import { from, range } from 'rxjs';
+import { hasProps } from 'rxjs-toolkit';
+import { mergeMap, pluck, reduce, switchMap, tap } from 'rxjs/operators';
+import { postTransducer } from './helpers';
+import { postsCache$ } from './posts.cache';
+import { PostsDao, Post } from './posts.model';
 dotenv.config();
 
 const http = axios.create({
@@ -28,3 +31,12 @@ export const postsDao: PostsDao = {
   posts$: params => from(axios.get(endpoint, { params })),
   post$: id => from(axios.get(`${endpoint}/${id}`))
 };
+
+export const newPostsRequest$ = postsDao.allPosts$.pipe(
+  hasProps('data'),
+  pluck<AxiosResponse, any[]>('data'),
+  mergeMap(data => data),
+  postTransducer,
+  reduce((acc, val: Post) => ({ ...acc, [val.id]: val }), {} as Post),
+  tap(posts => postsCache$.next(posts))
+);
