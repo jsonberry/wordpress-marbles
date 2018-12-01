@@ -1,18 +1,22 @@
 import { combineRoutes, EffectFactory } from '@marblejs/core';
-import { getAllPostsEffect$, getPostEffect$, getPostsEffect$ } from './effects';
+import {
+  flushPostsCacheEffect$,
+  getPostEffect$,
+  getPostsEffect$
+} from './effects';
 
-export const getPosts$ = EffectFactory.matchPath('/')
-  .matchType('GET')
-  .use(getPostsEffect$);
+export const flushPostsCache$ = EffectFactory.matchPath('/flush')
+  .matchType('POST')
+  .use(flushPostsCacheEffect$);
 
 export const getPost$ = EffectFactory.matchPath('/:id')
   .matchType('GET')
   .use(getPostEffect$);
 
-export const getAllPosts$ = EffectFactory.matchPath('/all')
+export const getPosts$ = EffectFactory.matchPath('/')
   .matchType('GET')
-  .use(getAllPostsEffect$);
+  .use(getPostsEffect$);
 
 export const posts$ = combineRoutes('/posts', {
-  effects: [getAllPosts$, getPost$, getPosts$]
+  effects: [flushPostsCache$, getPost$, getPosts$]
 });

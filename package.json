@@ -6,7 +6,7 @@
   "scripts": {
     "test": "test",
     "docker": "docker-compose -f .docker/docker-compose.yml up -d",
-    "start:dev": "ts-node --project tsconfig.json src/index.ts",
+    "start": "ts-node --project tsconfig.json src/index.ts",
     "watch": "nodemon --watch src --ext ts --ignore '*.spec.ts' --exec npm run start:dev"
   },
   "repository": {

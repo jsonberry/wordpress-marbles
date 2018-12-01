@@ -1,3 +1,3 @@
-export * from './getAllPosts.effect';
-export * from './getPosts.effect';
+export * from './flushPostsCache.effect';
 export * from './getPost.effect';
+export * from './getPosts.effect';

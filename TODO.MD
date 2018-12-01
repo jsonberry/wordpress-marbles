@@ -1,7 +1,8 @@
-- add inversifyJS and use it for injecting config into DAO
-- do basic Pages effects
+- ?add inversifyJS and use it for injecting config into DAO
 - do basic Users effects
 - do basic Search effects
-- add sqlite, redis, or mongo data layer for caching
 - Get dotenv to work properly so I don't have to brig it into the DAO models
 - Unit tests
+- Create rehydrate endpoints
+- update postsTransducer to work with default classic post types, acf, and new gutenberg content
+- Consolidate "entity" store, reduce the duplicated code between Post and Page endpoints
