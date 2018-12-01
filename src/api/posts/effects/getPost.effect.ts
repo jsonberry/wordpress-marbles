@@ -12,7 +12,7 @@ export const getPostEffect$: Effect = req$ =>
   req$.pipe(
     withLatestFrom(postsCache$),
     switchMap(([req, cache]) =>
-      iif(
+      iif( // get rid of iif and just use switchMap because the truthy branch gets evaluated before the predicate
         () => {
           if (cache) {
             return !!cache[req.params.id];
