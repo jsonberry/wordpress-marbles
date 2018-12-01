@@ -35,7 +35,7 @@ yarn docker
 ```
 
 ```bash
-yarn start:dev
+yarn start
 ```
 
 ```bash
