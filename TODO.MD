@@ -1,7 +1,7 @@
 - add inversifyJS and use it for injecting config into DAO
-- do basic Pages effects
 - do basic Users effects
 - do basic Search effects
-- add sqlite, redis, or mongo data layer for caching
 - Get dotenv to work properly so I don't have to brig it into the DAO models
 - Unit tests
+- Create rehydrate endpoints
+- update the POST key to be the link instead of the _wp_id

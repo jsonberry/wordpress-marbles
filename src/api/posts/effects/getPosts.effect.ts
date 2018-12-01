@@ -4,7 +4,7 @@ import { throwError } from 'rxjs';
 import { hasProps } from 'rxjs-toolkit';
 import { catchError, mergeMap, pluck, reduce, switchMap } from 'rxjs/operators';
 import { bodyResTransducer } from '../../common';
-import { postTransducer } from '../helpers';
+// import { postTransducer } from '../helpers';
 import { postsDao } from '../posts.dao';
 
 /**
@@ -23,7 +23,7 @@ export const getPostsEffect$: Effect = req$ =>
     hasProps('data'),
     pluck<AxiosResponse, any[]>('data'),
     mergeMap(data => data),
-    postTransducer,
+    // postTransducer,
     reduce((acc, val: any) => ({ ...acc, [val.id]: val })),
     bodyResTransducer,
     catchError(() =>
