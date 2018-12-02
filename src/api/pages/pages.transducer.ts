@@ -1,8 +1,8 @@
 import { map } from 'rxjs/operators';
-import { Page } from '../pages.model';
+import { Page } from './pages.model';
 import { Observable } from 'rxjs';
 
-export const pageTransducer = (stream$): Observable<Page> =>
+export const transducer = (stream$): Observable<Page> =>
   stream$.pipe(
     map((page: any): Page => ({
       id: page.slug,

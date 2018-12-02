@@ -1,7 +1,4 @@
-export interface EntityDate {
-  created: string; // ISO
-  modified: string; // ISO
-}
+import { EntityDate } from './entity-date';
 
 export interface Entity {
   _wp_id: number;
@@ -11,4 +8,3 @@ export interface Entity {
   status: string;
   title: string;
 }
-

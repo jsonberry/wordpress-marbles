@@ -1,14 +1,12 @@
 import { Effect, HttpError, HttpStatus } from '@marblejs/core';
-import { of, throwError } from 'rxjs';
-import { catchError, switchMap, switchMapTo } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { bodyResTransducer } from '../../common';
-import { postsCache$ } from '../posts.cache';
-import { newPostsRequest$ } from '../posts.dao';
+import { allPostsQuery$ } from '../posts.queries';
 
 export const getPostsEffect$: Effect = req$ =>
   req$.pipe(
-    switchMapTo(postsCache$),
-    switchMap(cache => (cache ? of(cache) : newPostsRequest$)),
+    allPostsQuery$,
     bodyResTransducer,
     catchError(() =>
       throwError(new HttpError('No posts found', HttpStatus.NOT_FOUND))
