@@ -1,13 +1,13 @@
 import { combineRoutes, EffectFactory } from '@marblejs/core';
 import {
-  flushPagesCacheEffect$,
+  postFlushPagesCacheEffect$,
   getPagesEffect$,
   getPageEffect$,
 } from './effects';
 
 export const flushPagesCache$ = EffectFactory.matchPath('/flush') // consider moving this to a rehydrate endpoint
   .matchType('POST')
-  .use(flushPagesCacheEffect$);
+  .use(postFlushPagesCacheEffect$);
 
 export const getPage$ = EffectFactory.matchPath('/:id')
   .matchType('GET')

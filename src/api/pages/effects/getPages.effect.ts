@@ -1,14 +1,12 @@
 import { Effect, HttpError, HttpStatus } from '@marblejs/core';
-import { of, throwError } from 'rxjs';
-import { catchError, switchMap, switchMapTo } from 'rxjs/operators';
+import { throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { bodyResTransducer } from '../../common';
-import { pagesCache$ } from '../pages.cache';
-import { newPagesRequest$ } from '../pages.dao';
+import { allPagesQuery$ } from '../pages.queries';
 
 export const getPagesEffect$: Effect = req$ =>
   req$.pipe(
-    switchMapTo(pagesCache$),
-    switchMap(cache => (cache ? of(cache) : newPagesRequest$)),
+    allPagesQuery$,
     bodyResTransducer,
     catchError(() =>
       throwError(new HttpError('No pages found', HttpStatus.NOT_FOUND))

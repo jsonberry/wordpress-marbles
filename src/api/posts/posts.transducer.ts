@@ -1,7 +1,7 @@
 import { map } from 'rxjs/operators';
-import { Post } from '../posts.model';
+import { Post } from './posts.model';
 
-export const postTransducer = stream$ =>
+export const transducer = stream$ =>
   stream$.pipe(
     map((post: any): Post => ({
       id: post.slug,

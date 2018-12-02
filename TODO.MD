@@ -6,3 +6,4 @@
 - Create rehydrate endpoints
 - update postsTransducer to work with default classic post types, acf, and new gutenberg content
 - Consolidate "entity" store, reduce the duplicated code between Post and Page endpoints
+- Get rid of the 'any' in the common DAO
