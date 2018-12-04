@@ -2,30 +2,22 @@ import * as dotenv from 'dotenv';
 import { BehaviorSubject } from 'rxjs';
 import { map, reduce } from 'rxjs/operators';
 import { EntitiesDao, EntityState, CACHE_TOKEN, ENDPOINT_TOKEN, TRANSDUCER_TOKEN, REDUCER_TOKEN } from '../../common';
-import { Post } from './posts.model';
+import { User } from './users.model';
 import { ReflectiveInjector, Injectable, Inject } from 'injection-js';
 import { HttpService } from '../../services';
 dotenv.config();
 
-export const cache = new BehaviorSubject<EntityState<Post> | null>(null);
-export const endpoint = `${process.env.API_BASE}/wp/v2/posts`;
+export const cache = new BehaviorSubject<EntityState<User> | null>(null);
+export const endpoint = `${process.env.API_BASE}/wp/v2/users`;
 export function transducer(stream$) {
   return stream$.pipe(
     map(
-      (post: any): Post => ({
-        id: post.slug,
-        title: post.title.rendered,
-        excerpt: post.excerpt.rendered,
-        date: {
-          created: post.date,
-          modified: post.modified
-        },
-        categories: post.categories,
-        tags: post.tags,
-        status: post.status,
-        author_id: post.author,
-        _wp_id: post.id,
-        acf: post.acf
+      (user: any): User => ({
+        _wp_id: user.id,
+        id: user.slug,
+        name: user.name,
+        description: user.description,
+        acf: user.acf
       })
     )
   );
@@ -33,7 +25,7 @@ export function transducer(stream$) {
 export const reducer = reduce((acc, val: any) => ({ ...acc, [val.id]: val }), {});
 
 @Injectable()
-export class PostsDao extends EntitiesDao<Post> {
+export class UsersDao extends EntitiesDao<User> {
   constructor(
     http: HttpService,
     @Inject(CACHE_TOKEN) cache,
@@ -53,11 +45,11 @@ export class PostsDao extends EntitiesDao<Post> {
 
 const injector = ReflectiveInjector.resolveAndCreate([
   HttpService,
-  PostsDao,
+  UsersDao,
   { provide: CACHE_TOKEN, useValue: cache },
   { provide: ENDPOINT_TOKEN, useValue: endpoint},
   { provide: TRANSDUCER_TOKEN, useValue: transducer },
   { provide: REDUCER_TOKEN, useValue: reducer },
 ]);
 
-export default injector.get(PostsDao);
+export default injector.get(UsersDao);

@@ -1,9 +1,7 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import * as https from 'https';
-import { injectable } from 'inversify';
 import { from, Observable } from 'rxjs';
 
-@injectable()
 export class HttpService {
   private instance = axios.create({
     httpsAgent: new https.Agent({
