@@ -1,6 +1,6 @@
 import { Observable } from 'rxjs';
 import { AxiosResponse } from 'axios';
-import { Entity } from '../common';
+import { Entity } from '../../common';
 
 export interface PostsDao {
   allPosts$: Observable<AxiosResponse<any>>;
