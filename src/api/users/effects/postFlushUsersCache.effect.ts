@@ -1,9 +1,9 @@
 import { Effect } from '@marblejs/core';
 import { tap, map } from 'rxjs/operators';
-import dao from '../users.dao';
+import appServices from '../../../services';
 
 export const postFlushUsersCacheEffect$: Effect = req$ =>
   req$.pipe(
-    tap(_ => dao.flushCache()),
+    tap(_ => appServices.users.flushCache()),
     map(_ => ({body: 'Successfully cleared Users cache'}))
   );

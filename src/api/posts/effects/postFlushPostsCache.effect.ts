@@ -1,9 +1,9 @@
 import { Effect } from '@marblejs/core';
-import { tap, map } from 'rxjs/operators';
-import dao from '../posts.dao';
+import { map, tap } from 'rxjs/operators';
+import appServices from '../../../services';
 
 export const postFlushPostsCacheEffect$: Effect = req$ =>
   req$.pipe(
-    tap(_ => dao.flushCache()),
-    map(_ => ({body: 'Successfully cleared Posts cache'}))
+    tap(_ => appServices.posts.flushCache()),
+    map(_ => ({ body: 'Successfully cleared Posts cache' }))
   );

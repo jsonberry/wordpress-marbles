@@ -1,8 +1,8 @@
 import { combineRoutes, EffectFactory } from '@marblejs/core';
 import {
-  postFlushPostsCacheEffect$,
   getPostEffect$,
-  getPostsEffect$
+  getPostsEffect$,
+  postFlushPostsCacheEffect$
 } from './effects';
 
 export const flushPostsCache$ = EffectFactory.matchPath('/flush')

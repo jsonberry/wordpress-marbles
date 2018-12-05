@@ -1,6 +1,6 @@
 import { HttpRequest } from '@marblejs/core';
 import { AxiosResponse } from 'axios';
-import { Inject, Injectable, InjectionToken } from 'injection-js';
+import { Inject, Injectable } from 'injection-js';
 import { from, Observable, of, range } from 'rxjs';
 import { hasProps } from 'rxjs-toolkit';
 import {
@@ -11,32 +11,40 @@ import {
   tap,
   withLatestFrom
 } from 'rxjs/operators';
-import { HttpService } from '../../services';
-import { EntityCache, EntityRequest, EntityState } from '../models';
+import { HttpService } from './http.service';
+import { EntityCache, EntityRequest, EntityState } from '../common/models';
 
-export const CACHE_TOKEN = new InjectionToken('cache');
-export const ENDPOINT_TOKEN = new InjectionToken('endpoint');
-export const TRANSDUCER_TOKEN = new InjectionToken('transducer');
-export const REDUCER_TOKEN = new InjectionToken('reducer');
+import {
+  CACHE_TOKEN,
+  ENDPOINT_TOKEN,
+  REDUCER_TOKEN,
+  TRANSDUCER_TOKEN,
+  URL_BASE_TOKEN
+} from './injection-tokens';
 
 @Injectable()
 export abstract class EntitiesDao<T> {
   constructor(
     private http: HttpService,
-    @Inject(CACHE_TOKEN) public cache: EntityCache<T>,
+    @Inject(CACHE_TOKEN) private cache: EntityCache<T>,
+    @Inject(URL_BASE_TOKEN) private urlBase: string,
     @Inject(ENDPOINT_TOKEN) private endpoint: string,
     @Inject(TRANSDUCER_TOKEN) private transducer: (stream$: Observable<any>) => Observable<T>,
     @Inject(REDUCER_TOKEN) private reducer
   ) {}
 
+  private get resource(): string {
+    return `${this.urlBase}${this.endpoint}`;
+  }
+
   public newRequest$(): EntityRequest<T> {
-    return from(this.http.head(this.endpoint)).pipe(
+    return from(this.http.head(this.resource)).pipe(
       switchMap(({ headers }) => {
         const totalPages = Number(headers['x-wp-totalpages']);
-        return totalPages > 0 ? range(1, Number(headers['x-wp-totalpages'])) : of(1);
+        return totalPages > 0 ? range(1, totalPages) : of(1);
       }),
       mergeMap(page =>
-        this.http.get(this.endpoint, {
+        this.http.get(this.resource, {
           params: {
             page
           }
