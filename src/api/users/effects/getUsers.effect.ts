@@ -4,11 +4,11 @@ import { catchError } from 'rxjs/operators';
 import { bodyResTransducer } from '../../../common';
 import appServices from '../../../services';
 
-export const getPostEffect$: Effect = req$ =>
+export const getUsersEffect$: Effect = req$ =>
   req$.pipe(
-    appServices.posts.entity$,
+    appServices.users.allEntities$,
     bodyResTransducer,
     catchError(() =>
-      throwError(new HttpError('Post not found', HttpStatus.NOT_FOUND))
+      throwError(new HttpError('No Users found', HttpStatus.NOT_FOUND))
     )
   );

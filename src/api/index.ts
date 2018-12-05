@@ -1,16 +1,16 @@
-import { EffectFactory, combineRoutes } from '@marblejs/core';
-import { notFoundEffect$ } from './common';
-import { posts$ } from './posts';
+import { combineRoutes, EffectFactory } from '@marblejs/core';
+import { notFoundEffect$ } from '../common';
 import { pages$ } from './pages';
+import { posts$ } from './posts';
+import { users$ } from './users';
 
 export const notFound$ = EffectFactory.matchPath('*')
   .matchType('*')
   .use(notFoundEffect$);
 
-export * from './common';
-
 export const api$ = combineRoutes('/api/v1', [
-  posts$,
   pages$,
+  posts$,
+  users$,
   notFound$
 ]);
