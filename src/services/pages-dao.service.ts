@@ -1,18 +1,32 @@
 import { Inject, Injectable } from 'injection-js';
 import { map, reduce } from 'rxjs/operators';
-import { Page } from '../api/pages/pages.model';
+import { Page } from '../api';
 import { EntitiesDao } from './entities-dao.service';
 import { HttpService } from './http.service';
 import { URL_BASE_TOKEN } from './injection-tokens';
 import { StoreService } from './store.service';
+import { EntityState } from '../common';
 
 @Injectable()
 export class PagesDao extends EntitiesDao<Page> {
   public readonly type = 'PAGES';
   public readonly endpoint = '/wp/v2/pages';
-  public readonly reducer = reduce(
-    (acc, val: any) => ({ ...acc, [val.id]: val }),
-    {}
+  public readonly reducer = reduce<Page, EntityState<Page>>(
+    (acc, val) => ({
+      dictionary: {
+        ...acc.dictionary,
+        [val._wp_id]: val,
+      },
+      index: {
+        ...acc.index,
+        [val.id]: val._wp_id,
+      },
+      set: [
+        ...acc.set,
+        val,
+      ]
+    }),
+    {dictionary: {}, index: {}, set: []}
   );
   public readonly transducer = stream$ =>
     stream$.pipe(

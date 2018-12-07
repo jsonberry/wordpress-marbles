@@ -1,1 +1,5 @@
-export type EntityState<T> = Record<string, T>;
+export interface EntityState<T> {
+  dictionary: Record<string, T>;
+  index: Record<string, number>;
+  set: T[];
+}
