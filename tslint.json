@@ -1,5 +1,6 @@
 {
   "rules": {
+    "trailing-comma": true,
     "max-line-length": [
       true,
       120
