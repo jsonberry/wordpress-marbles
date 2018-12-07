@@ -8,7 +8,7 @@ import { api$ } from './api';
 import { cors$ } from './common';
 import appServices from './services';
 
-console.time('Duration:');
+console.time('Duration');
 of('Hydrating stores...')
   .pipe(
     tap(message => console.log(message)),
@@ -16,13 +16,16 @@ of('Hydrating stores...')
       forkJoin(
         appServices.pages
           .newRequest$()
-          .pipe(tap(() => console.log('Pages Store Hydrated...'))),
+          .pipe(tap(() => console.log('Pages loaded...'))),
         appServices.posts
           .newRequest$()
-          .pipe(tap(() => console.log('Posts Store Hydrated...'))),
+          .pipe(tap(() => console.log('Posts loaded...'))),
         appServices.users
           .newRequest$()
-          .pipe(tap(() => console.log('Users Store Hydrated...')))
+          .pipe(tap(() => console.log('Users loaded...'))),
+        appServices.categories
+          .newRequest$()
+          .pipe(tap(() => console.log('Categories loaded...')))
       )
     )
   )

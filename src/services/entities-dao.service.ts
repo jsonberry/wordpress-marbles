@@ -3,7 +3,14 @@ import { AxiosResponse } from 'axios';
 import { Inject, Injectable } from 'injection-js';
 import { from, Observable, of, OperatorFunction, range } from 'rxjs';
 import { hasProps } from 'rxjs-toolkit';
-import { map, mergeMap, pluck, switchMap, tap, withLatestFrom } from 'rxjs/operators';
+import {
+  map,
+  mergeMap,
+  pluck,
+  switchMap,
+  tap,
+  withLatestFrom
+} from 'rxjs/operators';
 import { EntityRequest, EntityState, EntityType } from '../common/models';
 import { HttpService } from './http.service';
 import { URL_BASE_TOKEN } from './injection-tokens';
@@ -14,12 +21,12 @@ export abstract class EntitiesDao<T> {
   abstract readonly type: EntityType;
   abstract readonly endpoint: string;
   abstract transducer: (stream$: Observable<any>) => Observable<T>;
-  abstract reducer: OperatorFunction<T, Record<string, T>>;
+  abstract reducer: OperatorFunction<T, EntityState<T>>;
 
   constructor(
     private http: HttpService,
     private store: StoreService,
-    @Inject(URL_BASE_TOKEN) private urlBase: string,
+    @Inject(URL_BASE_TOKEN) private urlBase: string
   ) {}
 
   private get resource(): string {
@@ -64,11 +71,14 @@ export abstract class EntitiesDao<T> {
     req$.pipe(
       withLatestFrom(this.store.selectFeature<T>(this.type)),
       switchMap(([req, cache]) => {
-        if (!cache || !cache[req.params.id]) {
-          return this.newRequest$().pipe(map(cache => cache[req.params.id]));
+        const id = req.params.id;
+        if (!cache || !cache.index[id]) {
+          return this.newRequest$().pipe(
+            map(cache => cache.dictionary[cache.index[id]])
+          );
         }
 
-        return of(cache[req.params.id]);
+        return of(cache.dictionary[cache.index[id]]);
       })
     )
 }

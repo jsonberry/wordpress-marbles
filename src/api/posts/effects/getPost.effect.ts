@@ -7,11 +7,14 @@ import appServices from '../../../services';
 export const getPostEffect$: Effect = req$ =>
   req$.pipe(
     appServices.posts.entity$,
-    withLatestFrom(appServices.store.USERS),
-    map(([post, users]) => {
+    withLatestFrom(appServices.store.USERS, appServices.store.CATEGORIES),
+    map(([post, users, categories]) => {
       return {
         ...post,
-        author: users && users[post.author_id],
+        author: users && users.dictionary[users.index[post.author_id]],
+        categories: post.categories
+          .map(id => categories && categories.dictionary[id].id)
+          .join(', ')
       };
     }),
     bodyResTransducer,

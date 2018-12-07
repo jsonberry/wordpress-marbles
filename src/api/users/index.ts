@@ -4,6 +4,7 @@ import {
   getUserEffect$,
   getUsersEffect$
 } from './effects';
+export * from './users.model';
 
 export const flushUsersCache$ = EffectFactory.matchPath('/flush')
   .matchType('POST')
