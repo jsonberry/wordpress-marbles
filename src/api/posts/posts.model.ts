@@ -1,11 +1,10 @@
-import { Observable } from 'rxjs';
-import { AxiosResponse } from 'axios';
 import { Entity } from '../../common';
 
-export interface PostsDao {
-  allPosts$: Observable<AxiosResponse<any>>;
-  posts$(params?: any): Observable<AxiosResponse<any>>;
-  post$(id: string): Observable<AxiosResponse<any>>;
+export interface PostImage {
+  thumbnail: string;
+  medium: string;
+  medium_large: string;
+  full: string;
 }
 
 export interface Post extends Entity {
@@ -14,4 +13,5 @@ export interface Post extends Entity {
   categories: number[];
   excerpt: string;
   tags: number[];
+  image: PostImage;
 }
