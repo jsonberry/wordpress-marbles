@@ -3,14 +3,7 @@ import { AxiosResponse } from 'axios';
 import { Inject, Injectable } from 'injection-js';
 import { from, Observable, of, OperatorFunction, range } from 'rxjs';
 import { hasProps } from 'rxjs-toolkit';
-import {
-  map,
-  mergeMap,
-  pluck,
-  switchMap,
-  tap,
-  withLatestFrom
-} from 'rxjs/operators';
+import { map, mergeMap, pluck, switchMap, tap, withLatestFrom } from 'rxjs/operators';
 import { EntityRequest, EntityState, EntityType } from '../common/models';
 import { HttpService } from './http.service';
 import { URL_BASE_TOKEN } from './injection-tokens';

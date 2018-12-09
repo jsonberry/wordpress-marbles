@@ -7,8 +7,8 @@ import appServices from '../../../services';
 export const getPostEffect$: Effect = req$ =>
   req$.pipe(
     appServices.posts.entity$,
-    withLatestFrom(appServices.store.USERS, appServices.store.CATEGORIES),
-    map(([post, users, categories]) => {
+    withLatestFrom(appServices.store.USERS, appServices.store.CATEGORIES, appServices.store.ASSETS),
+    map(([post, users, categories, assets]) => {
       const author =  users && users.dictionary[post.author_id];
       return {
         id: post.id,
@@ -19,13 +19,13 @@ export const getPostEffect$: Effect = req$ =>
         primary_tag: post.acf && post.acf.primary_tag,
         additional_tags: post.acf && post.acf.additional_tags,
         case_studies: post.acf && post.acf.case_studies,
-        image: null, // setup after the media entity is setup
+        image: assets && assets.dictionary[post.featured_media_id],
         author: {
           name: author && author.name,
           id: author && author.id,
         },
-        categories: post.categories
-          .map(id => categories && categories.dictionary[id].id)
+        categories: post.categories && post.categories
+          .map(id => categories && categories.dictionary[id] && categories.dictionary[id].id)
           .join(', '),
         content: post.acf && post.acf.flex_content
       };
