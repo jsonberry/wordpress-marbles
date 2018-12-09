@@ -36,6 +36,7 @@ export class PostsDao extends EntitiesDao<Post> {
           id: post.slug,
           title: post.title.rendered,
           excerpt: post.excerpt.rendered,
+          featured_media_id: post.featured_media,
           date: {
             created: post.date,
             modified: post.modified

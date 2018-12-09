@@ -1,8 +1,9 @@
 import { BehaviorSubject } from 'rxjs';
-import { Category, Page, Post, User } from '../api';
+import { Asset, Category, Page, Post, User } from '../api';
 import { EntityCache, EntityState } from '../common';
 
 export interface Store {
+  ASSETS: EntityCache<Asset>;
   CATEGORIES: EntityCache<Category>;
   PAGES: EntityCache<Page>;
   POSTS: EntityCache<Post>;
@@ -11,10 +12,11 @@ export interface Store {
 }
 
 export class StoreService implements Store {
+  ASSETS = new BehaviorSubject<EntityState<Asset> | null>(null);
+  CATEGORIES = new BehaviorSubject<EntityState<Category> | null>(null);
   PAGES = new BehaviorSubject<EntityState<Page> | null>(null);
   POSTS = new BehaviorSubject<EntityState<Post> | null>(null);
   USERS = new BehaviorSubject<EntityState<User> | null>(null);
-  CATEGORIES = new BehaviorSubject<EntityState<Category> | null>(null);
 
   public selectFeature<T>(type: string): EntityCache<T> {
     // put null check here

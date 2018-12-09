@@ -1,1 +1,1 @@
-export type EntityType = 'PAGES' | 'POSTS' | 'USERS' | 'CATEGORIES';
+export type EntityType = 'PAGES' | 'POSTS' | 'USERS' | 'CATEGORIES' | 'ASSETS';

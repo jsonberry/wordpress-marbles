@@ -1,6 +1,7 @@
 import { Entity } from '../../common';
 
 export interface PostImage {
+  _wp_id: number;
   thumbnail: string;
   medium: string;
   medium_large: string;
@@ -13,5 +14,5 @@ export interface Post extends Entity {
   categories: number[];
   excerpt: string;
   tags: number[];
-  image: PostImage;
+  featured_media_id: number;
 }
