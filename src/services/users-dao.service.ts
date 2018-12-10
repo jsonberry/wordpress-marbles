@@ -33,7 +33,7 @@ export class UsersDao extends EntitiesDao<User> {
       map(
         (user: any): User => ({
           _wp_id: user.id,
-          id: (user.name as string).replace(' ', '-').toLowerCase(),
+          id: user.name && (user.name as string).replace(' ', '-').toLowerCase(),
           name: user.name,
           description: user.description,
           acf: user.acf

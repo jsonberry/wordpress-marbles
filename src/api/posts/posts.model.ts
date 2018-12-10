@@ -10,6 +10,7 @@ export interface PostImage {
 
 export interface Post extends Entity {
   acf?: Record<string, any>;
+  content: string;
   author_id: number;
   categories: number[];
   excerpt: string;

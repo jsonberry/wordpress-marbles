@@ -32,6 +32,7 @@ of('Hydrating stores...')
         appServices.posts.newRequest$().pipe(
           tap(() => console.log('Posts loaded...')),
           mergeMap(posts => posts.set),
+          filter(post => post.featured_media_id !== 0),
           mergeMap(post => {
             console.log('Requesting Post Featured Image:', post.featured_media_id);
             return appServices.http

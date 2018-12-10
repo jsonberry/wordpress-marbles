@@ -34,8 +34,8 @@ export class PostsDao extends EntitiesDao<Post> {
         (post: any): Post => ({
           _wp_id: post.id,
           id: post.slug,
-          title: post.title.rendered,
-          excerpt: post.excerpt.rendered,
+          title: post.title && post.title.rendered,
+          excerpt: post.excerpt && post.excerpt.rendered,
           featured_media_id: post.featured_media,
           date: {
             created: post.date,
@@ -44,6 +44,7 @@ export class PostsDao extends EntitiesDao<Post> {
           categories: post.categories,
           tags: post.tags,
           author_id: post.author,
+          content: post.content && post.content.rendered,
           acf: post.acf
         })
       )
