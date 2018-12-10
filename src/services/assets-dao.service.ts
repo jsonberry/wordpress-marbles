@@ -31,10 +31,9 @@ export class AssetsDao extends EntitiesDao<Asset> {
       filter((asset: any) => {
         return !!(
           asset &&
+          asset.post &&
           asset.media_details &&
-          asset.media_details &&
-          asset.media_details.sizes &&
-          asset.post
+          asset.media_details.sizes
         );
       }),
       map(

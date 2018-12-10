@@ -34,11 +34,12 @@ export class PagesDao extends EntitiesDao<Page> {
         (page: any): Page => ({
           _wp_id: page.id,
           id: page.slug,
-          title: page.title.rendered,
+          title: page.title && page.title.rendered,
           date: {
             created: page.date,
             modified: page.modified
           },
+          content: page.content && page.content.rendered,
           acf: page.acf
         })
       )

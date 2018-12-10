@@ -1,15 +1,19 @@
 import { Effect, HttpError, HttpStatus } from '@marblejs/core';
 import { throwError } from 'rxjs';
-import { catchError, withLatestFrom, map } from 'rxjs/operators';
+import { catchError, map, withLatestFrom } from 'rxjs/operators';
 import { bodyResTransducer } from '../../../common';
 import appServices from '../../../services';
 
 export const getPostEffect$: Effect = req$ =>
   req$.pipe(
     appServices.posts.entity$,
-    withLatestFrom(appServices.store.USERS, appServices.store.CATEGORIES, appServices.store.ASSETS),
+    withLatestFrom(
+      appServices.store.USERS,
+      appServices.store.CATEGORIES,
+      appServices.store.ASSETS
+    ),
     map(([post, users, categories, assets]) => {
-      const author =  users && users.dictionary[post.author_id];
+      const author = users && users.dictionary[post.author_id];
       return {
         id: post.id,
         title: post.title,
@@ -22,12 +26,20 @@ export const getPostEffect$: Effect = req$ =>
         image: assets && assets.dictionary[post.featured_media_id],
         author: {
           name: author && author.name,
-          id: author && author.id,
+          id: author && author.id
         },
-        categories: post.categories && post.categories
-          .map(id => categories && categories.dictionary[id] && categories.dictionary[id].id)
-          .join(', '),
-        content: post.acf && post.acf.flex_content
+        categories:
+          post.categories &&
+          post.categories
+            .map(
+              id =>
+                categories &&
+                categories.dictionary[id] &&
+                categories.dictionary[id].id
+            )
+            .join(', '),
+        content: post.content,
+        acf: post.acf && post.acf.flex_content
       };
     }),
     bodyResTransducer,
