@@ -15,5 +15,6 @@ yarn-error.log
 .env
 
 dist
+doc
 build
 
