@@ -7,7 +7,8 @@
     "test": "test",
     "docker": "docker-compose -f .docker/docker-compose.yml up -d",
     "start": "ts-node --project tsconfig.json src/index.ts",
-    "watch": "nodemon --watch src --ext ts --ignore '*.spec.ts' --exec npm run start:dev"
+    "watch": "nodemon --watch src --ext ts --ignore '*.spec.ts' --exec npm run start:dev",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
